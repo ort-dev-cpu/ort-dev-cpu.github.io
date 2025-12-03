@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Electro-ORT - Révisions BTS Électrotechnique</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -12,152 +15,342 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Roboto', sans-serif;
             line-height: 1.6;
-            color: #333;
-            background: #f5f5f5;
+            color: #1a1a1a;
+            background: #0a0e27;
+            overflow-x: hidden;
         }
 
-        header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 2rem 0;
-            text-align: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        h1, h2, h3, h4 {
+            font-family: 'Montserrat', sans-serif;
         }
 
-        header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        header p {
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
-
+        /* Navigation */
         nav {
-            background: white;
-            padding: 1rem 0;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            position: sticky;
+            position: fixed;
             top: 0;
-            z-index: 100;
+            left: 0;
+            width: 100%;
+            background: rgba(10, 14, 39, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem 2rem;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        nav ul {
-            list-style: none;
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
             display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 2rem;
-            padding: 0 1rem;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        nav a {
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+            letter-spacing: 1px;
+        }
+
+        .logo span {
+            color: #00d4ff;
+        }
+
+        .hamburger {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+            padding: 10px;
+            z-index: 1001;
+        }
+
+        .hamburger span {
+            width: 30px;
+            height: 3px;
+            background: #00d4ff;
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(9px, 9px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(9px, -9px);
+        }
+
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 100%;
+            max-width: 400px;
+            height: 100vh;
+            background: rgba(10, 14, 39, 0.98);
+            backdrop-filter: blur(20px);
+            transition: right 0.4s ease;
+            z-index: 999;
+            padding: 100px 40px 40px;
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .menu-overlay.active {
+            right: 0;
+        }
+
+        .menu-overlay ul {
+            list-style: none;
+        }
+
+        .menu-overlay li {
+            margin: 2rem 0;
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.3s ease;
+        }
+
+        .menu-overlay.active li {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .menu-overlay.active li:nth-child(1) { transition-delay: 0.1s; }
+        .menu-overlay.active li:nth-child(2) { transition-delay: 0.2s; }
+        .menu-overlay.active li:nth-child(3) { transition-delay: 0.3s; }
+        .menu-overlay.active li:nth-child(4) { transition-delay: 0.4s; }
+        .menu-overlay.active li:nth-child(5) { transition-delay: 0.5s; }
+
+        .menu-overlay a {
             text-decoration: none;
-            color: #667eea;
+            color: #fff;
+            font-size: 1.4rem;
             font-weight: 500;
-            transition: color 0.3s;
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.3s;
+            padding: 10px 0;
         }
 
-        nav a:hover {
-            color: #764ba2;
+        .menu-overlay a:hover {
+            color: #00d4ff;
+            transform: translateX(10px);
+        }
+
+        .menu-icon {
+            font-size: 1.8rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(rgba(10, 14, 39, 0.7), rgba(10, 14, 39, 0.85)), 
+                        url('https://images.unsplash.com/photo-1509390144185-c1b21fb5a7e8?q=80&w=2070') center/cover;
+            color: white;
+            text-align: center;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 50%, transparent 0%, rgba(10, 14, 39, 0.5) 100%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            padding: 2rem;
+        }
+
+        .hero h1 {
+            font-size: 4.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero h1 span {
+            color: #00d4ff;
+        }
+
+        .hero p {
+            font-size: 1.4rem;
+            margin-bottom: 2rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 3rem;
+            background: #00d4ff;
+            color: #0a0e27;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 212, 255, 0.5);
+            background: #00b8e6;
+        }
+
+        /* Main Content */
+        .main-content {
+            display: none;
+        }
+
+        .main-content.active {
+            display: block;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 2rem 1rem;
+            padding: 4rem 2rem;
+            min-height: 100vh;
         }
 
         section {
-            background: white;
+            background: rgba(255, 255, 255, 0.98);
             margin: 2rem 0;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 3rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
         }
 
         h2 {
-            color: #667eea;
-            margin-bottom: 1.5rem;
-            font-size: 2rem;
-            border-bottom: 3px solid #667eea;
-            padding-bottom: 0.5rem;
+            color: #0a0e27;
+            margin-bottom: 2rem;
+            font-size: 2.5rem;
+            font-weight: 700;
+            border-bottom: 3px solid #00d4ff;
+            padding-bottom: 1rem;
+            letter-spacing: 1px;
         }
 
         h3 {
-            color: #764ba2;
-            margin: 1.5rem 0 1rem;
-            font-size: 1.4rem;
+            color: #1a1a1a;
+            margin: 2rem 0 1rem;
+            font-size: 1.6rem;
+            font-weight: 600;
         }
 
         .formule {
-            background: #f8f9ff;
-            padding: 1.5rem;
-            margin: 1rem 0;
-            border-left: 4px solid #667eea;
-            border-radius: 5px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 2rem;
+            margin: 1.5rem 0;
+            border-left: 5px solid #00d4ff;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
         }
 
         .formule-titre {
-            font-weight: bold;
-            color: #667eea;
+            font-weight: 600;
+            color: #0a0e27;
             font-size: 1.2rem;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.8rem;
+            font-family: 'Montserrat', sans-serif;
         }
 
         .formule-math {
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             font-family: 'Courier New', monospace;
             background: white;
-            padding: 1rem;
-            margin: 0.5rem 0;
-            border-radius: 5px;
+            padding: 1.2rem;
+            margin: 0.8rem 0;
+            border-radius: 8px;
             text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
         }
 
         .formule-desc {
-            color: #666;
-            margin-top: 0.5rem;
+            color: #4a4a4a;
+            margin-top: 0.8rem;
             font-size: 0.95rem;
+            line-height: 1.8;
         }
 
-        .quiz-container {
-            margin: 1rem 0;
+        .sadt-diagram {
+            background: white;
+            border: 2px solid #00d4ff;
+            padding: 3rem;
+            margin: 1.5rem 0;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
         }
 
-        .question {
-            background: #f8f9ff;
-            padding: 1.5rem;
-            margin: 1rem 0;
+        .sadt-box {
+            display: inline-block;
+            border: 3px solid #1a1a1a;
+            padding: 2rem 3rem;
+            margin: 1rem;
+            position: relative;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             border-radius: 5px;
         }
 
+        .question {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 2rem;
+            margin: 1.5rem 0;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
         .question h4 {
-            color: #667eea;
-            margin-bottom: 1rem;
+            color: #0a0e27;
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+            font-weight: 600;
         }
 
         .options {
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
+            gap: 0.8rem;
         }
 
         .option {
-            padding: 0.8rem;
+            padding: 1rem;
             background: white;
-            border: 2px solid #e0e0e0;
-            border-radius: 5px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s;
+            font-weight: 500;
         }
 
         .option:hover {
-            border-color: #667eea;
-            background: #f0f0ff;
+            border-color: #00d4ff;
+            background: #f0faff;
+            transform: translateX(5px);
         }
 
         .option.correct {
@@ -171,395 +364,410 @@
         }
 
         .btn {
-            background: #667eea;
+            background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
             color: white;
-            padding: 0.8rem 2rem;
+            padding: 1rem 2.5rem;
             border: none;
-            border-radius: 5px;
+            border-radius: 50px;
             cursor: pointer;
             font-size: 1rem;
-            transition: background 0.3s;
-            margin-top: 1rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin-top: 1.5rem;
+            box-shadow: 0 5px 20px rgba(0, 212, 255, 0.3);
+            font-family: 'Montserrat', sans-serif;
         }
 
         .btn:hover {
-            background: #764ba2;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 212, 255, 0.5);
         }
 
-        .fiches-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1.5rem;
-        }
-
-        .fiche-card {
-            background: #f8f9ff;
-            padding: 1.5rem;
-            border-radius: 8px;
-            text-align: center;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .fiche-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
-        }
-
-        .fiche-card h4 {
-            color: #667eea;
-            margin-bottom: 1rem;
-        }
-
-        .sadt-diagram {
-            background: white;
-            border: 2px solid #667eea;
+        .memento-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             padding: 2rem;
-            margin: 1rem 0;
-            border-radius: 8px;
-            text-align: center;
+            border-radius: 15px;
+            color: white;
+            margin: 2rem 0;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+            transition: all 0.3s;
         }
 
-        .sadt-box {
+        .memento-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.5);
+        }
+
+        .memento-card h3 {
+            color: white;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .memento-card p {
+            margin-bottom: 1.5rem;
+            opacity: 0.95;
+        }
+
+        .download-btn {
             display: inline-block;
-            border: 2px solid #333;
-            padding: 2rem 3rem;
-            margin: 1rem;
-            position: relative;
-            background: #f8f9ff;
+            padding: 0.8rem 2rem;
+            background: white;
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-family: 'Montserrat', sans-serif;
         }
 
-        .sadt-arrow {
-            margin: 0 1rem;
-            font-size: 2rem;
-            color: #667eea;
+        .download-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(255, 255, 255, 0.3);
         }
 
         footer {
-            background: #333;
+            background: #0a0e27;
             color: white;
             text-align: center;
-            padding: 2rem;
-            margin-top: 3rem;
+            padding: 3rem;
+            margin-top: 5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         @media (max-width: 768px) {
-            header h1 {
-                font-size: 1.8rem;
+            .hero h1 {
+                font-size: 2.5rem;
             }
 
-            nav ul {
-                flex-direction: column;
-                gap: 1rem;
+            .hero p {
+                font-size: 1.1rem;
             }
 
             section {
-                padding: 1.5rem;
+                padding: 2rem;
+            }
+
+            h2 {
+                font-size: 2rem;
             }
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>⚡ Electro-ORT ⚡</h1>
-        <p>Révisions BTS Électrotechnique - 1ère année</p>
-    </header>
-
     <nav>
-        <ul>
-            <li><a href="#accueil">Accueil</a></li>
-            <li><a href="#sadt">SADT</a></li>
-            <li><a href="#formules">Formules</a></li>
-            <li><a href="#circuits">Circuits de Base</a></li>
-            <li><a href="#quiz">Quiz</a></li>
-            <li><a href="#fiches">Fiches Mémo</a></li>
-        </ul>
+        <div class="nav-container">
+            <div class="logo">ELECTRO<span>-ORT</span></div>
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
     </nav>
 
-    <div class="container">
-        <section id="accueil">
-            <h2>Bienvenue sur Electro-ORT</h2>
-            <p>Ce site a été créé pour aider les étudiants de 1ère année BTS Électrotechnique à réviser leurs cours. Vous trouverez ici :</p>
-            <ul style="margin: 1rem 0 1rem 2rem; line-height: 2;">
-                <li>Des explications sur la méthodologie SADT</li>
-                <li>Toutes les formules essentielles d'électricité</li>
-                <li>Les bases des circuits électriques</li>
-                <li>Des quiz interactifs pour tester vos connaissances</li>
-                <li>Des fiches mémo téléchargeables</li>
-            </ul>
-            <p style="margin-top: 1.5rem; font-style: italic; color: #666;">Bon courage dans vos révisions ! 📚⚡</p>
-        </section>
+    <div class="menu-overlay">
+        <ul>
+            <li><a href="#" onclick="showSection('sadt')"><span class="menu-icon">📊</span> SADT</a></li>
+            <li><a href="#" onclick="showSection('formules')"><span class="menu-icon">⚡</span> Formules</a></li>
+            <li><a href="#" onclick="showSection('circuits')"><span class="menu-icon">🔌</span> Circuits</a></li>
+            <li><a href="#" onclick="showSection('quiz')"><span class="menu-icon">✓</span> Quiz</a></li>
+            <li><a href="#" onclick="showSection('memento')"><span class="menu-icon">📚</span> Mémento</a></li>
+        </ul>
+    </div>
 
-        <section id="sadt">
-            <h2>SADT - Analyse Fonctionnelle</h2>
-            
-            <h3>Qu'est-ce que le SADT ?</h3>
-            <p>Le SADT (Structured Analysis and Design Technique) est une méthode d'analyse descendante qui permet de décrire un système complexe en le décomposant en modules plus simples.</p>
+    <div class="hero" id="hero">
+        <div class="hero-content">
+            <h1>ELECTRO<span>-ORT</span></h1>
+            <p>Plateforme de révision professionnelle pour BTS Électrotechnique</p>
+            <a href="#" class="cta-button" onclick="startRevision()">Commencer les révisions</a>
+        </div>
+    </div>
 
-            <h3>Principe du diagramme SADT</h3>
-            <div class="sadt-diagram">
-                <div style="margin: 2rem 0;">
-                    <div style="display: inline-block; text-align: center;">
-                        <div style="margin-bottom: 1rem;">↓ Données d'entrée</div>
-                        <div class="sadt-box">
-                            <strong>FONCTION</strong><br>
-                            (Verbe à l'infinitif)
+    <div class="main-content" id="mainContent">
+        <div class="container">
+            <section id="sadt-section">
+                <h2>SADT - Analyse Fonctionnelle</h2>
+                
+                <h3>Qu'est-ce que le SADT ?</h3>
+                <p>Le SADT (Structured Analysis and Design Technique) est une méthode d'analyse descendante qui permet de décrire un système complexe en le décomposant en modules plus simples.</p>
+
+                <h3>Principe du diagramme SADT</h3>
+                <div class="sadt-diagram">
+                    <div style="margin: 2rem 0;">
+                        <div style="display: inline-block; text-align: center;">
+                            <div style="margin-bottom: 1rem; font-weight: 600;">↓ Données d'entrée</div>
+                            <div class="sadt-box">
+                                <strong>FONCTION</strong><br>
+                                (Verbe à l'infinitif)
+                            </div>
+                            <div style="margin-top: 1rem; font-weight: 600;">↓ Données de sortie</div>
                         </div>
-                        <div style="margin-top: 1rem;">↓ Données de sortie</div>
                     </div>
+                    <p style="margin-top: 2rem; font-size: 0.95rem; color: #666; font-weight: 500;">
+                        <strong>Entrées à gauche</strong> | <strong>Sorties à droite</strong> | <strong>Contrôles en haut</strong> | <strong>Mécanismes en bas</strong>
+                    </p>
                 </div>
-                <p style="margin-top: 2rem; font-size: 0.9rem; color: #666;">
-                    <strong>Entrées à gauche</strong> | <strong>Sorties à droite</strong> | <strong>Contrôles en haut</strong> | <strong>Mécanismes en bas</strong>
-                </p>
-            </div>
 
-            <h3>Les règles importantes</h3>
-            <div class="formule">
-                <div class="formule-titre">✓ Règle 1 : Une fonction = Un verbe à l'infinitif</div>
-                <div class="formule-desc">Exemple : Convertir, Distribuer, Commander, Protéger</div>
-            </div>
-
-            <div class="formule">
-                <div class="formule-titre">✓ Règle 2 : Les flux</div>
-                <div class="formule-desc">
-                    • Entrées (E) : Matière, énergie ou information transformée<br>
-                    • Sorties (S) : Résultat de la transformation<br>
-                    • Contrôles (C) : Contraintes, ordres qui déclenchent la fonction<br>
-                    • Mécanismes (M) : Moyens nécessaires (outils, opérateurs)
+                <h3>Les règles importantes</h3>
+                <div class="formule">
+                    <div class="formule-titre">✓ Règle 1 : Une fonction = Un verbe à l'infinitif</div>
+                    <div class="formule-desc">Exemple : Convertir, Distribuer, Commander, Protéger</div>
                 </div>
-            </div>
 
-            <h3>Niveaux d'analyse</h3>
-            <p><strong>A-0</strong> : Vue globale du système (niveau le plus élevé)</p>
-            <p><strong>A0</strong> : Décomposition en grandes fonctions (3 à 8 fonctions)</p>
-            <p><strong>A1, A2, A3...</strong> : Décomposition détaillée de chaque fonction</p>
-        </section>
-
-        <section id="formules">
-            <h2>Formules Électriques Essentielles</h2>
-
-            <h3>Loi d'Ohm</h3>
-            <div class="formule">
-                <div class="formule-titre">Tension, Intensité et Résistance</div>
-                <div class="formule-math">U = R × I</div>
-                <div class="formule-desc">
-                    U = Tension en Volts (V)<br>
-                    R = Résistance en Ohms (Ω)<br>
-                    I = Intensité en Ampères (A)
-                </div>
-            </div>
-
-            <div class="formule">
-                <div class="formule-math">R = U / I</div>
-                <div class="formule-math">I = U / R</div>
-            </div>
-
-            <h3>Puissance Électrique</h3>
-            <div class="formule">
-                <div class="formule-titre">Puissance en courant continu</div>
-                <div class="formule-math">P = U × I</div>
-                <div class="formule-desc">P = Puissance en Watts (W)</div>
-            </div>
-
-            <div class="formule">
-                <div class="formule-titre">Autres formules de puissance</div>
-                <div class="formule-math">P = R × I²</div>
-                <div class="formule-math">P = U² / R</div>
-            </div>
-
-            <h3>Énergie Électrique</h3>
-            <div class="formule">
-                <div class="formule-titre">Énergie consommée</div>
-                <div class="formule-math">W = P × t</div>
-                <div class="formule-desc">
-                    W = Énergie en Joules (J) ou Watt-heures (Wh)<br>
-                    t = Temps en secondes (s) ou heures (h)
-                </div>
-            </div>
-
-            <h3>Résistances en Série</h3>
-            <div class="formule">
-                <div class="formule-math">R<sub>total</sub> = R₁ + R₂ + R₃ + ...</div>
-                <div class="formule-desc">La résistance totale est la somme de toutes les résistances</div>
-            </div>
-
-            <h3>Résistances en Parallèle</h3>
-            <div class="formule">
-                <div class="formule-math">1/R<sub>total</sub> = 1/R₁ + 1/R₂ + 1/R₃ + ...</div>
-            </div>
-
-            <div class="formule">
-                <div class="formule-titre">Cas particulier (2 résistances)</div>
-                <div class="formule-math">R<sub>total</sub> = (R₁ × R₂) / (R₁ + R₂)</div>
-            </div>
-
-            <h3>Lois de Kirchhoff</h3>
-            <div class="formule">
-                <div class="formule-titre">Loi des nœuds (1ère loi)</div>
-                <div class="formule-math">ΣI<sub>entrantes</sub> = ΣI<sub>sortantes</sub></div>
-                <div class="formule-desc">La somme des courants entrants = somme des courants sortants</div>
-            </div>
-
-            <div class="formule">
-                <div class="formule-titre">Loi des mailles (2ème loi)</div>
-                <div class="formule-math">ΣU = 0</div>
-                <div class="formule-desc">La somme algébrique des tensions dans une maille fermée est nulle</div>
-            </div>
-
-            <h3>Diviseur de Tension</h3>
-            <div class="formule">
-                <div class="formule-math">U<sub>R1</sub> = U<sub>total</sub> × (R₁ / (R₁ + R₂))</div>
-            </div>
-
-            <h3>Diviseur de Courant</h3>
-            <div class="formule">
-                <div class="formule-math">I<sub>R1</sub> = I<sub>total</sub> × (R₂ / (R₁ + R₂))</div>
-            </div>
-        </section>
-
-        <section id="circuits">
-            <h2>Circuits Électriques de Base</h2>
-
-            <h3>Circuit Série</h3>
-            <div class="formule">
-                <div class="formule-titre">Caractéristiques</div>
-                <div class="formule-desc">
-                    • Le courant est identique partout : I<sub>total</sub> = I₁ = I₂ = I₃<br>
-                    • Les tensions s'additionnent : U<sub>total</sub> = U₁ + U₂ + U₃<br>
-                    • Une coupure affecte tout le circuit
-                </div>
-            </div>
-
-            <h3>Circuit Parallèle</h3>
-            <div class="formule">
-                <div class="formule-titre">Caractéristiques</div>
-                <div class="formule-desc">
-                    • La tension est identique partout : U<sub>total</sub> = U₁ = U₂ = U₃<br>
-                    • Les courants s'additionnent : I<sub>total</sub> = I₁ + I₂ + I₃<br>
-                    • Chaque branche fonctionne indépendamment
-                </div>
-            </div>
-
-            <h3>Court-circuit</h3>
-            <div class="formule">
-                <div class="formule-titre">Définition</div>
-                <div class="formule-desc">
-                    Connexion directe entre deux points d'un circuit avec résistance quasi-nulle.<br>
-                    <strong>Danger :</strong> Courant très élevé pouvant endommager le matériel !
-                </div>
-            </div>
-
-            <h3>Circuit ouvert</h3>
-            <div class="formule">
-                <div class="formule-titre">Définition</div>
-                <div class="formule-desc">
-                    Interruption dans le circuit : I = 0 A<br>
-                    Aucun courant ne circule.
-                </div>
-            </div>
-        </section>
-
-        <section id="quiz">
-            <h2>Quiz Interactif</h2>
-            <p>Testez vos connaissances ! Cliquez sur la réponse que vous pensez correcte.</p>
-
-            <div class="quiz-container">
-                <div class="question">
-                    <h4>Question 1 : Quelle est l'unité de la résistance électrique ?</h4>
-                    <div class="options">
-                        <div class="option" onclick="checkAnswer(this, false)">A) Ampère (A)</div>
-                        <div class="option" onclick="checkAnswer(this, false)">B) Volt (V)</div>
-                        <div class="option" onclick="checkAnswer(this, true)">C) Ohm (Ω)</div>
-                        <div class="option" onclick="checkAnswer(this, false)">D) Watt (W)</div>
+                <div class="formule">
+                    <div class="formule-titre">✓ Règle 2 : Les flux</div>
+                    <div class="formule-desc">
+                        • Entrées (E) : Matière, énergie ou information transformée<br>
+                        • Sorties (S) : Résultat de la transformation<br>
+                        • Contrôles (C) : Contraintes, ordres qui déclenchent la fonction<br>
+                        • Mécanismes (M) : Moyens nécessaires (outils, opérateurs)
                     </div>
                 </div>
 
-                <div class="question">
-                    <h4>Question 2 : Dans un circuit série, qu'est-ce qui reste constant ?</h4>
-                    <div class="options">
-                        <div class="option" onclick="checkAnswer(this, false)">A) La tension</div>
-                        <div class="option" onclick="checkAnswer(this, true)">B) Le courant</div>
-                        <div class="option" onclick="checkAnswer(this, false)">C) La résistance</div>
-                        <div class="option" onclick="checkAnswer(this, false)">D) La puissance</div>
+                <h3>Niveaux d'analyse</h3>
+                <p><strong>A-0</strong> : Vue globale du système (niveau le plus élevé)</p>
+                <p><strong>A0</strong> : Décomposition en grandes fonctions (3 à 8 fonctions)</p>
+                <p><strong>A1, A2, A3...</strong> : Décomposition détaillée de chaque fonction</p>
+            </section>
+
+            <section id="formules-section">
+                <h2>Formules Électriques Essentielles</h2>
+
+                <h3>Loi d'Ohm</h3>
+                <div class="formule">
+                    <div class="formule-titre">Tension, Intensité et Résistance</div>
+                    <div class="formule-math">U = R × I</div>
+                    <div class="formule-desc">
+                        U = Tension en Volts (V)<br>
+                        R = Résistance en Ohms (Ω)<br>
+                        I = Intensité en Ampères (A)
                     </div>
                 </div>
 
-                <div class="question">
-                    <h4>Question 3 : Si U = 12V et R = 4Ω, quelle est l'intensité I ?</h4>
-                    <div class="options">
-                        <div class="option" onclick="checkAnswer(this, false)">A) 48 A</div>
-                        <div class="option" onclick="checkAnswer(this, true)">B) 3 A</div>
-                        <div class="option" onclick="checkAnswer(this, false)">C) 8 A</div>
-                        <div class="option" onclick="checkAnswer(this, false)">D) 16 A</div>
+                <div class="formule">
+                    <div class="formule-math">R = U / I</div>
+                    <div class="formule-math">I = U / R</div>
+                </div>
+
+                <h3>Puissance Électrique</h3>
+                <div class="formule">
+                    <div class="formule-titre">Puissance en courant continu</div>
+                    <div class="formule-math">P = U × I</div>
+                    <div class="formule-desc">P = Puissance en Watts (W)</div>
+                </div>
+
+                <div class="formule">
+                    <div class="formule-titre">Autres formules de puissance</div>
+                    <div class="formule-math">P = R × I²</div>
+                    <div class="formule-math">P = U² / R</div>
+                </div>
+
+                <h3>Énergie Électrique</h3>
+                <div class="formule">
+                    <div class="formule-titre">Énergie consommée</div>
+                    <div class="formule-math">W = P × t</div>
+                    <div class="formule-desc">
+                        W = Énergie en Joules (J) ou Watt-heures (Wh)<br>
+                        t = Temps en secondes (s) ou heures (h)
                     </div>
                 </div>
 
-                <div class="question">
-                    <h4>Question 4 : Que signifie SADT ?</h4>
-                    <div class="options">
-                        <div class="option" onclick="checkAnswer(this, false)">A) System Analysis Design Tool</div>
-                        <div class="option" onclick="checkAnswer(this, true)">B) Structured Analysis and Design Technique</div>
-                        <div class="option" onclick="checkAnswer(this, false)">C) Standard Automatic Design Technology</div>
-                        <div class="option" onclick="checkAnswer(this, false)">D) Simple Analysis Diagram Technique</div>
+                <h3>Résistances en Série</h3>
+                <div class="formule">
+                    <div class="formule-math">R<sub>total</sub> = R₁ + R₂ + R₃ + ...</div>
+                    <div class="formule-desc">La résistance totale est la somme de toutes les résistances</div>
+                </div>
+
+                <h3>Résistances en Parallèle</h3>
+                <div class="formule">
+                    <div class="formule-math">1/R<sub>total</sub> = 1/R₁ + 1/R₂ + 1/R₃ + ...</div>
+                </div>
+
+                <div class="formule">
+                    <div class="formule-titre">Cas particulier (2 résistances)</div>
+                    <div class="formule-math">R<sub>total</sub> = (R₁ × R₂) / (R₁ + R₂)</div>
+                </div>
+
+                <h3>Lois de Kirchhoff</h3>
+                <div class="formule">
+                    <div class="formule-titre">Loi des nœuds (1ère loi)</div>
+                    <div class="formule-math">ΣI<sub>entrantes</sub> = ΣI<sub>sortantes</sub></div>
+                    <div class="formule-desc">La somme des courants entrants = somme des courants sortants</div>
+                </div>
+
+                <div class="formule">
+                    <div class="formule-titre">Loi des mailles (2ème loi)</div>
+                    <div class="formule-math">ΣU = 0</div>
+                    <div class="formule-desc">La somme algébrique des tensions dans une maille fermée est nulle</div>
+                </div>
+
+                <h3>Diviseur de Tension</h3>
+                <div class="formule">
+                    <div class="formule-math">U<sub>R1</sub> = U<sub>total</sub> × (R₁ / (R₁ + R₂))</div>
+                </div>
+
+                <h3>Diviseur de Courant</h3>
+                <div class="formule">
+                    <div class="formule-math">I<sub>R1</sub> = I<sub>total</sub> × (R₂ / (R₁ + R₂))</div>
+                </div>
+            </section>
+
+            <section id="circuits-section">
+                <h2>Circuits Électriques de Base</h2>
+
+                <h3>Circuit Série</h3>
+                <div class="formule">
+                    <div class="formule-titre">Caractéristiques</div>
+                    <div class="formule-desc">
+                        • Le courant est identique partout : I<sub>total</sub> = I₁ = I₂ = I₃<br>
+                        • Les tensions s'additionnent : U<sub>total</sub> = U₁ + U₂ + U₃<br>
+                        • Une coupure affecte tout le circuit
                     </div>
                 </div>
 
-                <div class="question">
-                    <h4>Question 5 : Deux résistances de 6Ω en parallèle donnent une résistance totale de :</h4>
-                    <div class="options">
-                        <div class="option" onclick="checkAnswer(this, false)">A) 12 Ω</div>
-                        <div class="option" onclick="checkAnswer(this, false)">B) 6 Ω</div>
-                        <div class="option" onclick="checkAnswer(this, true)">C) 3 Ω</div>
-                        <div class="option" onclick="checkAnswer(this, false)">D) 1.5 Ω</div>
+                <h3>Circuit Parallèle</h3>
+                <div class="formule">
+                    <div class="formule-titre">Caractéristiques</div>
+                    <div class="formule-desc">
+                        • La tension est identique partout : U<sub>total</sub> = U₁ = U₂ = U₃<br>
+                        • Les courants s'additionnent : I<sub>total</sub> = I₁ + I₂ + I₃<br>
+                        • Chaque branche fonctionne indépendamment
                     </div>
                 </div>
-            </div>
 
-            <button class="btn" onclick="resetQuiz()">Réinitialiser le Quiz</button>
-        </section>
-
-        <section id="fiches">
-            <h2>Fiches Mémo</h2>
-            <p>Des fiches de révision condensées pour réviser rapidement :</p>
-
-            <div class="fiches-grid">
-                <div class="fiche-card">
-                    <h4>📋 Fiche SADT</h4>
-                    <p>Méthodologie complète et exemples d'analyse fonctionnelle</p>
-                    <button class="btn" onclick="alert('Téléchargement en cours...\n(Fonctionnalité à implémenter avec vos propres fichiers PDF)')">Télécharger</button>
+                <h3>Court-circuit</h3>
+                <div class="formule">
+                    <div class="formule-titre">Définition</div>
+                    <div class="formule-desc">
+                        Connexion directe entre deux points d'un circuit avec résistance quasi-nulle.<br>
+                        <strong>Danger :</strong> Courant très élevé pouvant endommager le matériel !
+                    </div>
                 </div>
 
-                <div class="fiche-card">
-                    <h4>⚡ Fiche Formules</h4>
-                    <p>Toutes les formules essentielles sur une page</p>
-                    <button class="btn" onclick="alert('Téléchargement en cours...\n(Fonctionnalité à implémenter avec vos propres fichiers PDF)')">Télécharger</button>
+                <h3>Circuit ouvert</h3>
+                <div class="formule">
+                    <div class="formule-titre">Définition</div>
+                    <div class="formule-desc">
+                        Interruption dans le circuit : I = 0 A<br>
+                        Aucun courant ne circule.
+                    </div>
+                </div>
+            </section>
+
+            <section id="quiz-section">
+                <h2>Quiz Interactif</h2>
+                <p>Testez vos connaissances ! Cliquez sur la réponse que vous pensez correcte.</p>
+
+                <div class="quiz-container">
+                    <div class="question">
+                        <h4>Question 1 : Quelle est l'unité de la résistance électrique ?</h4>
+                        <div class="options">
+                            <div class="option" onclick="checkAnswer(this, false)">A) Ampère (A)</div>
+                            <div class="option" onclick="checkAnswer(this, false)">B) Volt (V)</div>
+                            <div class="option" onclick="checkAnswer(this, true)">C) Ohm (Ω)</div>
+                            <div class="option" onclick="checkAnswer(this, false)">D) Watt (W)</div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <h4>Question 2 : Dans un circuit série, qu'est-ce qui reste constant ?</h4>
+                        <div class="options">
+                            <div class="option" onclick="checkAnswer(this, false)">A) La tension</div>
+                            <div class="option" onclick="checkAnswer(this, true)">B) Le courant</div>
+                            <div class="option" onclick="checkAnswer(this, false)">C) La résistance</div>
+                            <div class="option" onclick="checkAnswer(this, false)">D) La puissance</div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <h4>Question 3 : Si U = 12V et R = 4Ω, quelle est l'intensité I ?</h4>
+                        <div class="options">
+                            <div class="option" onclick="checkAnswer(this, false)">A) 48 A</div>
+                            <div class="option" onclick="checkAnswer(this, true)">B) 3 A</div>
+                            <div class="option" onclick="checkAnswer(this, false)">C) 8 A</div>
+                            <div class="option" onclick="checkAnswer(this, false)">D) 16 A</div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <h4>Question 4 : Que signifie SADT ?</h4>
+                        <div class="options">
+                            <div class="option" onclick="checkAnswer(this, false)">A) System Analysis Design Tool</div>
+                            <div class="option" onclick="checkAnswer(this, true)">B) Structured Analysis and Design Technique</div>
+                            <div class="option" onclick="checkAnswer(this, false)">C) Standard Automatic Design Technology</div>
+                            <div class="option" onclick="checkAnswer(this, false)">D) Simple Analysis Diagram Technique</div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <h4>Question 5 : Deux résistances de 6Ω en parallèle donnent une résistance totale de :</h4>
+                        <div class="options">
+                            <div class="option" onclick="checkAnswer(this, false)">A) 12 Ω</div>
+                            <div class="option" onclick="checkAnswer(this, false)">B) 6 Ω</div>
+                            <div class="option" onclick="checkAnswer(this, true)">C) 3 Ω</div>
+                            <div class="option" onclick="checkAnswer(this, false)">D) 1.5 Ω</div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="fiche-card">
-                    <h4>🔌 Fiche Circuits</h4>
-                    <p>Série, parallèle et circuits mixtes expliqués</p>
-                    <button class="btn" onclick="alert('Téléchargement en cours...\n(Fonctionnalité à implémenter avec vos propres fichiers PDF)')">Télécharger</button>
-                </div>
+                <button class="btn" onclick="resetQuiz()">Réinitialiser le Quiz</button>
+            </section>
 
-                <div class="fiche-card">
-                    <h4>📊 Fiche Kirchhoff</h4>
-                    <p>Lois des nœuds et des mailles avec exercices</p>
-                    <button class="btn" onclick="alert('Téléchargement en cours...\n(Fonctionnalité à implémenter avec vos propres fichiers PDF)')">Télécharger</button>
-                </div>
-            </div>
+            <section id="memento-section">
+                <h2>Mémento</h2>
+                <p>Documents de référence pour réviser rapidement et efficacement.</p>
 
-            <p style="margin-top: 2rem; color: #666; font-style: italic;">
-                💡 Astuce : Imprimez ces fiches et gardez-les toujours avec vous pour réviser dans les transports !
-            </p>
-        </section>
+                <div class="memento-card">
+                    <h3>📄 Mémento Électrotechnique</h3>
+                    <p>Document complet avec toutes les informations essentielles pour vos révisions.</p>
+                    <a href="memento/PC_Z. 1.0 Mémento (1).pdf" class="download-btn" download>📥 Télécharger le PDF</a>
+                </div>
+            </section>
+        </div>
     </div>
 
     <footer>
         <p>&copy; 2024 Electro-ORT - Site de révision BTS Électrotechnique</p>
-        <p style="margin-top: 0.5rem; font-size: 0.9rem;">Créé avec ❤️ pour les étudiants de 1ère année</p>
+        <p style="margin-top: 0.5rem; font-size: 0.9rem; opacity: 0.8;">Plateforme professionnelle pour l'excellence académique</p>
     </footer>
 
     <script>
+        function toggleMenu() {
+            const hamburger = document.querySelector('.hamburger');
+            const menu = document.querySelector('.menu-overlay');
+            hamburger.classList.toggle('active');
+            menu.classList.toggle('active');
+        }
+
+        function startRevision() {
+            document.getElementById('hero').style.display = 'none';
+            document.getElementById('mainContent').classList.add('active');
+            showSection('sadt');
+            toggleMenu();
+        }
+
+        function showSection(sectionName) {
+            document.getElementById('hero').style.display = 'none';
+            document.getElementById('mainContent').classList.add('active');
+            
+            const sections = ['sadt', 'formules', 'circuits', 'quiz', 'memento'];
+            sections.forEach(section => {
+                const element = document.getElementById(section + '-section');
+                if (element) {
+                    element.style.display = 'none';
+                }
+            });
+            
+            const targetSection = document.getElementById(sectionName + '-section');
+            if (targetSection) {
+                targetSection.style.display = 'block';
+                targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+            
+            toggleMenu();
+        }
+
         function checkAnswer(element, isCorrect) {
             const options = element.parentElement.children;
             
@@ -586,19 +794,6 @@
                 option.style.pointerEvents = 'auto';
             });
         }
-
-        document.querySelectorAll('nav a').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href');
-                const targetSection = document.querySelector(targetId);
-                
-                targetSection.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            });
-        });
     </script>
 </body>
 </html>
